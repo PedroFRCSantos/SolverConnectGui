@@ -60,6 +60,10 @@ while not done:
                     else:
                         newPoint = True;
                     initPoints[indNewPoint[0]][indNewPoint[1]] = indexCount;
+                    
+                if estimateIfIsToProcess(pos, [round(dimTab[0]/2)*100 + 100, 10, 100, 70]):
+                    print "Is to process"
+                    writeFileToMainProgram(initPoints, dimTab, indexCount);
 
             elif step == 0 or step == 1:
                 numPress = estimateButton(pos)
@@ -188,7 +192,7 @@ while not done:
         screen.blit(text, textrect)
     
     # This MUST happen after all the other drawing commands.
-    pygame.display.flip()
+    pygame.display.flip();
  
 # Be IDLE friendly
 pygame.quit()

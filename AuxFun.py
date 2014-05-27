@@ -1,3 +1,5 @@
+import os
+
 def estimateButton(posClick):
     num = 1;
     
@@ -115,3 +117,30 @@ def estimateColor(valIn):
     color = [Red, Green, Blue];
     
     return color;
+
+def estimateIfIsToProcess(posClick, rect):
+    
+    if posClick[0] < rect[0] + rect[2] and posClick[0] > rect[0] and posClick[1] < rect[1] + rect[3] and posClick[1] > rect[1]:
+        return True;
+    
+    return False;
+
+def writeFileToMainProgram(board, boardSize, numberLines):
+    
+    f = open('DataIn.txt','w')
+    
+    f.write(str(boardSize[1]) + os.linesep)
+    f.write(str(boardSize[0]) + os.linesep)
+    
+    f.write(str(numberLines) + os.linesep)
+    
+    for val in range(1, numberLines+1):
+        for i in range(boardSize[1]):
+            for j in range(boardSize[0]):
+                if board[i][j] == val:
+                    f.write(str(i+1) + os.linesep)
+                    f.write(str(j+1) + os.linesep)
+                    f.write(str(board[i][j]) + os.linesep)
+    
+    f.close()
+    
