@@ -2,7 +2,7 @@
 # Import a library of functions called 'pygame'
 import pygame
 from AuxFun import *
- 
+
 # Initialize the game engine
 pygame.init()
  
@@ -64,6 +64,11 @@ while not done:
                 if estimateIfIsToProcess(pos, [round(dimTab[0]/2)*100 + 100, 10, 100, 70]):
                     print "Is to process"
                     writeFileToMainProgram(initPoints, dimTab, indexCount);
+                    print "call external program"
+                    os.system("SolverConnect.exe DataIn.txt")
+                    print "read output file"
+                    processResult = readSolutionFromFile(dimTab);
+                    step = 3;
 
             elif step == 0 or step == 1:
                 numPress = estimateButton(pos)
@@ -174,7 +179,7 @@ while not done:
         textrect.centery = 370 + 70/2.0;
         screen.blit(text, textrect)
     
-    if step == 2:
+    if step == 2 or step == 3:
         dimTab = estimateDim(linNum1, linNum2, colNum1, colNum2);
         
         for i in range(dimTab[1]):
@@ -190,6 +195,22 @@ while not done:
         textrect.centerx = round(dimTab[0]/2)*100 + 150;
         textrect.centery = 50;
         screen.blit(text, textrect)
+        
+    if step == 3:
+        #print "draw result"
+        for i in range(dimTab[1]):
+            for j in range(dimTab[0]):
+                if processResult[1][i][j] > -1:
+                    
+                    colorUsed = estimateColor(int(processResult[0][i][j]));
+                    
+                    # check if horizontal
+                    if processResult[1][i][j] == i:
+                        jMin = min(processResult[2][i][j], j);
+                        pygame.draw.rect(screen, colorUsed, [jMin*100 + 100 + 50, i*100 + 100 + 25, 100, 50], 0)
+                    else:
+                        iMin = min(processResult[1][i][j], i);
+                        pygame.draw.rect(screen, colorUsed, [j*100 + 100 + 25, iMin*100 + 100 + 25, 50, 150], 0)
     
     # This MUST happen after all the other drawing commands.
     pygame.display.flip();
