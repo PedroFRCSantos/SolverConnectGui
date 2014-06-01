@@ -149,20 +149,24 @@ def readSolutionFromFile(dim):
     ident = generate2DMatrix(dim);
     identAntI = generate2DMatrix(dim);
     identAntJ = generate2DMatrix(dim);
+    solBoard = True;
     
     f = open("result.txt", "r")
     
     for i in range(dim[0]*dim[1]):
         line = f.readline();
-        lineSplit = line.split();
-        
-        indI = int(lineSplit[0]);
-        indJ = int(lineSplit[1]);
-        
-        ident[indI][indJ] = lineSplit[2];
-        
-        identAntI[indI][indJ] = int(lineSplit[3]);
-        identAntJ[indI][indJ] = int(lineSplit[4]);
+        if len(line) > 0:
+            lineSplit = line.split();
+            
+            indI = int(lineSplit[0]);
+            indJ = int(lineSplit[1]);
+            
+            ident[indI][indJ] = lineSplit[2];
+            
+            identAntI[indI][indJ] = int(lineSplit[3]);
+            identAntJ[indI][indJ] = int(lineSplit[4]);
+        else:
+            solBoard = False;
     
     f.close();
     
@@ -170,6 +174,7 @@ def readSolutionFromFile(dim):
     fromFile.append(ident);
     fromFile.append(identAntI);
     fromFile.append(identAntJ);
+    fromFile.append(solBoard);
     
     return fromFile;
     

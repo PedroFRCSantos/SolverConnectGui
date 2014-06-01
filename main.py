@@ -198,19 +198,27 @@ while not done:
         
     if step == 3:
         #print "draw result"
-        for i in range(dimTab[1]):
-            for j in range(dimTab[0]):
-                if processResult[1][i][j] > -1:
-                    
-                    colorUsed = estimateColor(int(processResult[0][i][j]));
-                    
-                    # check if horizontal
-                    if processResult[1][i][j] == i:
-                        jMin = min(processResult[2][i][j], j);
-                        pygame.draw.rect(screen, colorUsed, [jMin*100 + 100 + 50, i*100 + 100 + 25, 100, 50], 0)
-                    else:
-                        iMin = min(processResult[1][i][j], i);
-                        pygame.draw.rect(screen, colorUsed, [j*100 + 100 + 25, iMin*100 + 100 + 25, 50, 150], 0)
+        if processResult[3]:
+            for i in range(dimTab[1]):
+                for j in range(dimTab[0]):
+                    if processResult[1][i][j] > -1:
+                        
+                        colorUsed = estimateColor(int(processResult[0][i][j]));
+                        
+                        # check if horizontal
+                        if processResult[1][i][j] == i:
+                            jMin = min(processResult[2][i][j], j);
+                            pygame.draw.rect(screen, colorUsed, [jMin*100 + 100 + 50, i*100 + 100 + 25, 100, 50], 0)
+                        else:
+                            iMin = min(processResult[1][i][j], i);
+                            pygame.draw.rect(screen, colorUsed, [j*100 + 100 + 25, iMin*100 + 100 + 25, 50, 150], 0)
+        else:
+            basicfont = pygame.font.SysFont(None, 50)
+            text = basicfont.render('No solution Found!!!', True, (255, 0, 0), (255, 255, 255))
+            textrect = text.get_rect()
+            textrect.centerx = int(round(dimTab[0]*100/2 + 100 + 50));
+            textrect.centery = int(round(dimTab[1]*100/2));
+            screen.blit(text, textrect)
     
     # This MUST happen after all the other drawing commands.
     pygame.display.flip();
